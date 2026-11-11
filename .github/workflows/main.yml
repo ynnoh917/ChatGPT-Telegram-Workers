@@ -28,10 +28,13 @@ jobs:
         run: pnpm run build
 
       - name: Write wrangler.toml
-        run: echo "${{ secrets.WRANGLER_TOML }}" > wrangler.toml
+        # 👇 用 cat 和 heredoc 的方式，确保换行和格式完美，不会有多余字符
+        run: |
+          cat << 'EOF' > wrangler.toml
+          ${{ secrets.WRANGLER_TOML }}
+          EOF
 
       - name: Publish to Cloudflare
-        # 👇 核心变化：加上 -c wrangler.toml 强制指定配置文件
         run: npx wrangler deploy -c wrangler.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
