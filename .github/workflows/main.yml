@@ -16,16 +16,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'  # 👈 已升级到 22
+          node-version: '22'
 
       - name: Install pnpm
         run: npm install -g pnpm
 
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install --no-frozen-lockfile  # 👈 改用 pnpm 安装，并忽略锁文件冲突
 
       - name: Build Project
-        run: npm run build
+        run: pnpm run build                     # 👈 改用 pnpm 编译
 
       - name: Write wrangler.toml
         run: echo "${{ secrets.WRANGLER_TOML }}" > wrangler.toml
@@ -34,4 +34,4 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          packageManager: npm
+          packageManager: pnpm                  # 👈 告诉 wrangler 用 pnpm
