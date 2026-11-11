@@ -30,9 +30,9 @@ jobs:
       - name: Write wrangler.toml
         run: echo "${{ secrets.WRANGLER_TOML }}" > wrangler.toml
 
-      # 👇 核心修改：放弃第三方 action，直接用命令行部署
       - name: Publish to Cloudflare
-        run: npx wrangler deploy
+        # 👇 核心变化：加上 -c wrangler.toml 强制指定配置文件
+        run: npx wrangler deploy -c wrangler.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
