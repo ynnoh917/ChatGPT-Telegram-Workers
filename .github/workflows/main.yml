@@ -1,7 +1,7 @@
 name: Deploy to Cloudflare Workers
 
 on:
-  workflow_dispatch: # 允许手动点击运行
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -18,13 +18,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install pnpm
+        run: npm install -g pnpm  # 👈 新增这一行，把 pnpm 装上
+
       - name: Install Dependencies
         run: npm install
-        # 强制使用 npm，防止它去找 pnpm
 
       - name: Build Project
         run: npm run build
-        # TBXark 版本必须编译，产出 dist 目录
 
       - name: Write wrangler.toml
         run: echo "${{ secrets.WRANGLER_TOML }}" > wrangler.toml
