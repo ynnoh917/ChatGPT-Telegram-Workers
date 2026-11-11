@@ -16,10 +16,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'  # 👈 已升级到 22
 
       - name: Install pnpm
-        run: npm install -g pnpm  # 👈 新增这一行，把 pnpm 装上
+        run: npm install -g pnpm
 
       - name: Install Dependencies
         run: npm install
